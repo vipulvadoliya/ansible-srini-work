@@ -41,11 +41,13 @@
                 line="GATEWAY=10.59.200.1"
                 state=present
 
-  - name: Verify Hostname in  /etc/sysconfig/network file
-    lineinfile: dest=/etc/sysconfig/network
-                regexp='^HOSTNAME=sjc-enginst-*'
-                line="HOSTNAME=sjc-enginst-"
-                state=present
+#  - name: Verify Hostname in  /etc/sysconfig/network file
+#    lineinfile: dest=/etc/sysconfig/network
+#                regexp='^HOSTNAME=sjc-enginst-*'
+#                line="HOSTNAME=sjc-enginst-"
+#                state=present
+#    when: "'sjc-enginst' not in inventory_hostname"
+
 
     notify:
      - Enable auditd
