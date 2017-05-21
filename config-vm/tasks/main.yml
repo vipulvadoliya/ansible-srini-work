@@ -1,0 +1,117 @@
+---
+# tasks file for config-vm
+  - name: Copy resolv.conf file
+    copy: src=resolv.conf dest=/etc/ mode=644 owner=root group=root
+
+  - name: Copy ntp.conf file
+    copy: src=ntp.conf dest=/etc/ mode=644 owner=root group=root
+
+  - name: Copy authorized_keys2 file
+    copy: src=authorized_keys2 dest=/root/.ssh/ mode=600 owner=root group=root
+
+  - name: Copy sudoers file
+    copy: src=sudoers dest=/etc/ mode=644 owner=root group=root
+
+  - name: Remove /etc/sysconfig/network-scripts/route-eth0 file
+    command: rm -rf /etc/sysconfig/network-scripts/route-eth0
+
+  - name: Remove etc/sysconfig/network-scripts/route6-eth0 file
+    command: rm -rf /etc/sysconfig/network-scripts/route6-eth0
+
+  - name: Remove /etc/sysconfig/network-scripts/route-* files
+    command: rm -rf /etc/sysconfig/network-scripts/route-*
+
+  - name: Remove etc/sysconfig/network-scripts/route6-* files
+    command: rm -rf /etc/sysconfig/network-scripts/route6-*
+
+  - name: Copy SSN-EngOps-GIM6.repo yum Repo file
+    copy: src=SSN-EngOps-GIM6.repo dest=/etc/yum.repos.d/ mode=644 owner=root group=root
+
+  - name: Copy ssn-sweng.repo yum Repo file
+    copy: src=ssn-sweng.repo dest=/etc/yum.repos.d/ mode=644 owner=root group=root
+
+  - name: Remove /etc/udev/rules.d/* files
+    command: rm -rf /etc/udev/rules.d/*
+
+  - name: Copy ifcfg-eth0 file
+    copy: src=ifcfg-eth0 dest=/etc/sysconfig/network-scripts/ mode=644 owner=root group=root
+
+  - name: Verify Gateway in  /etc/sysconfig/network file
+    lineinfile: dest=/etc/sysconfig/network
+                line="GATEWAY=10.59.200.1"
+                state=present
+
+  - name: Verify Hostname in  /etc/sysconfig/network file
+    lineinfile: dest=/etc/sysconfig/network
+                regexp='^HOSTNAME=sjc-enginst-*'
+                line="HOSTNAME=sjc-enginst-"
+                state=present
+
+    notify:
+     - Enable auditd
+
+     - Enable crond
+
+     - Enable ds_agent
+
+     - Disable elasticsearch
+
+     - Enable ip6tables
+
+     - Enable iptables
+
+     - Enable jexec
+
+     - Enable kdump
+  
+     - Enable mdmonitor
+
+     - Disable netconsole
+
+     - Enable netfs
+
+     - Enable network
+
+     - Disable nfs
+
+     - Enable nfslock
+
+     - Disable nrpe
+
+     - Disable nscd
+
+     - Enable ntpd
+
+     - Disable ntpdate
+
+     - Enable postfix
+
+     - Disable rdisc
+
+     - Disable restorecond
+
+     - Disable rngd
+
+     - Enable rpcbind
+
+     - Enable rpcgssd
+
+     - Disable rpcsvcgssd
+
+     - Enable rsyslog
+
+     - Disable saslauthd
+
+     - Disable snmpd
+
+     - Disable snmptrapd
+
+     - Enable splunk
+
+     - Enable sshd
+
+     - Enable sysstat
+
+     - Enable udev-post
+
+     - Enable vmtoolsd

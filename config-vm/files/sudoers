@@ -1,0 +1,28 @@
+## SSN SWENG Sandbox sudoers file
+##
+## Contact EngOps@silverspringnet.com for help
+##
+## Current revision: 1.0.1 July 16, 2015
+##
+## This file must be edited with the 'visudo' command.
+Defaults    !requiretty
+
+# Defaults specification
+
+Defaults   !visiblepw
+
+Defaults    env_reset
+Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \
+                        LS_COLORS MAIL PS1 PS2 QTDIR USERNAME \
+                        LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION \
+                        LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC \
+                        LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS \
+                        _XKB_CHARSET XAUTHORITY"
+
+## Allow root to run any commands anywhere
+root                            ALL=(ALL)       ALL
+bamboo                          ALL=(ALL)       NOPASSWD: ALL
+btb                             ALL=(ALL)       NOPASSWD: ALL
+ssn                             ALL=(ALL)       NOPASSWD: ALL
+ALL                             SYS_SANDBOX=(ALL)  NOPASSWD: ALL
+

@@ -1,0 +1,29 @@
+[ssn-sweng-snapshots]
+name=Silver Spring Networks SWENG Snapshot Repository
+baseurl=http://nexus.silverspringnet.com/nexus/content/repositories/snapshots/
+enabled=1
+protect=0
+gpgcheck=0
+metadata_expire=30s
+autorefresh=1
+type=rpm-md
+
+[ssn-sweng-releases]
+name=Silver Spring Networks SWENG Release Repository
+baseurl=http://nexus.silverspringnet.com/nexus/content/repositories/releases/
+enabled=1
+protect=0
+gpgcheck=0
+metadata_expire=30s
+autorefresh=1
+type=rpm-md
+
+[thirdparty]
+name=Silver Spring Networks Third Party Repository
+baseurl=http://nexus.silverspringnet.com/nexus/content/repositories/thirdparty-el6/
+enabled=1
+protect=0
+gpgcheck=0
+metadata_expire=30s
+autorefresh=1
+type=rpm-md

@@ -1,0 +1,104 @@
+---
+# handlers file for config-vm
+  - name: Enable auditd
+    service: name=auditd.service enabled=yes
+
+  - name: Enable crond
+    service: name=crond.service enabled=yes
+
+  - name: Enable ds_agent
+    service: name=ds_agent.service enabled=yes
+
+  - name: Disable elasticsearch
+    service: name=elasticsearch.service enabled=no
+
+  - name: Enable ip6tables
+    service: name=ip6tables.service enabled=yes
+
+  - name: Enable iptables
+    service: name=iptables.service enabled=yes
+
+  - name: Enable jexec
+    service: name=jexec.service enabled=yes
+
+  - name: Enable kdump
+    service: name=kdump.service enabled=yes
+
+  - name: Enable mdmonitor
+    service: name=mdmonitor.service enabled=yes
+
+  - name: Disable netconsole
+    service: name=netconsole.service enabled=no
+
+  - name: Enable netfs
+    service: name=netfs.service enabled=yes
+
+  - name: Enable network 
+    service: name=network.service enabled=yes
+
+  - name: Disable nfs
+    service: name=nfs.service enabled=no
+
+  - name: Enable nfslock
+    service: name=nfslock.service enabled=yes
+
+  - name: Disable nrpe
+    service: name=nrpe.service enabled=no
+
+  - name: Disable nscd
+    service: name=nscd.service enabled=no
+
+  - name: Enable ntpd
+    service: name=ntpd.service enabled=yes
+
+  - name: Disable ntpdate 
+    service: name=ntpdate.service enabled=no
+
+  - name: Enable postfix
+    service: name=postfix.service enabled=yes
+
+  - name: Disable rdisc
+    service: name=rdisc.service enabled=no
+
+  - name: Disable restorecond
+    service: name=restorecond.service enabled=no
+
+  - name: Disable rngd
+    service: name=rngd.service enabled=no
+
+  - name: Enable rpcbind
+    service: name=rpcbind.service enabled=yes
+
+  - name: Enable rpcgssd
+    service: name=rpcgssd.service enabled=yes
+
+  - name: Disable rpcsvcgssd
+    service: name=rpcsvcgssd.service enabled=no
+
+  - name: Enable rsyslog
+    service: name=rsyslog.service enabled=yes
+
+  - name: Disable saslauthd
+    service: name=saslauthd.service enabled=no
+
+  - name: Disable snmpd
+    service: name=snmpd.service enabled=no
+
+  - name: Disable snmptrapd
+    service: name=snmptrapd.service enabled=no
+
+  - name: Enable splunk
+    service: name=splunk.service enabled=yes
+
+  - name: Enable sshd
+    service: name=sshd.service enabled=yes
+
+  - name: Enable sysstat
+    service: name=sysstat.service enabled=yes
+
+  - name: Enable udev-post
+    service: name=udev-post.service enabled=yes
+
+  - name: Enable vmtoolsd
+    service: name=vmtoolsd.service enabled=yes
+
