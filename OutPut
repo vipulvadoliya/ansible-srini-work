@@ -1,4 +1,4 @@
-[root@ip-172-31-53-198 myansible]# ansible-playbook -i "localhost," -c local  config-vm.yml
+[root@ip-172-31-53-198 myansible]# ansible-playbook -i "localhost," -c local  --check config-vm.yml
 
 PLAY [localhost] *******************************************************************************************************************************************************
 
