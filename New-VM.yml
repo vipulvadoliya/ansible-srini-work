@@ -1,0 +1,107 @@
+# Purpose: Playbook to spawn a new vm and modify its hardware allocation
+#
+# Author: Steve Tarantino
+###
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Clone {{ tmp }} to {{ hl }}
+      vsphere_guest:
+        validate_certs: false
+        vcenter_hostname: sfo-engvc-01.silverspringnet.com
+        username: ansible@vsphere.local
+        password: 23Silver$2333
+        guest: "{{ hl }}"
+        from_template: yes
+        template_src: "{{ tmp }}"
+        cluster: "{{ cluster }}"
+        esxi:
+          datacenter: Engineering Cluster
+          hostname: "{{ hn }}"
+
+    - name: Power down {{ hl }}
+      vsphere_guest:
+        validate_certs: false
+        vcenter_hostname: sfo-engvc-01.silverspringnet.com
+        username: ansible@vsphere.local
+        password: 23Silver$2333
+        guest: "{{ hl }}"
+        state: powered_off
+        force: yes
+
+    - name: Update hardware on {{ hl }}
+      vsphere_guest:
+        validate_certs: false
+        vcenter_hostname: sfo-engvc-01.silverspringnet.com
+        username: ansible@vsphere.local
+        password: 23Silver$2333
+        state: reconfigured
+        guest: "{{ hl }}"
+        vm_hardware:
+          memory_mb: "{{ ram|default(16384) }}"
+          num_cpus: "{{ cpu|default(4) }}"
+        vm_disk:
+          disk1:
+            size_gb: 20
+            type: thin
+            datastore: "{{ ds }}"
+          disk2:
+            size_gb: "{{ hd|default(200) }}"
+            type: thin
+            datastore: "{{ ds }}"
+
+    - name: Power on {{ hl }}
+      vsphere_guest:
+        validate_certs: false
+        vcenter_hostname: sfo-engvc-01.silverspringnet.com
+        username: ansible@vsphere.local
+        password: 23Silver$2333
+        guest: "{{ hl }}"
+        state: powered_on
+        force: yes
+
+    - wait_for:
+        host: "{{ gim }}"
+        port: 22
+        state: started
+- hosts: "{{ gim }}"
+  user: root
+  tasks:
+    - name: update the IP address to {{ IP }}
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eno16780032
+        regexp: '^IPADDR'
+        line: 'IPADDR="{{ IP }}"'
+      when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "7"
+    - name: update the IP address to {{ IP }} (rhel67)
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+        line: 'IPADDR="{{ IP }}"'
+        state: present
+      when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "6"
+    - name: update the subnet value
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eno16780032
+        regexp: '^NETMASK'
+        line: 'NETMASK="{{ netmask }}"'
+      when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "7"
+    - name: update the subnet value (rhel67)
+      lineinfile:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eth0
+        line: 'NETMASK="{{ netmask }}"'
+        state: present
+      when: ansible_distribution == "RedHat" and ansible_distribution_major_version == "6"
+    - name: change hostname to {{ hl }}
+      hostname:
+        name: "{{ hl }}"
+    - name: touch /etc/purpose
+      file: path=/etc/purpose state=absent
+    - name: set /etc/purpose to NEW
+      lineinfile: dest=/etc/purpose line="NEW" insertbefore=BOF create=yes state=present
+    - name: reboot
+      shell: sleep 2 && shutdown -r now  "Ansible updates triggered"
+      async: 1
+      poll: 0
+      ignore_errors: true
